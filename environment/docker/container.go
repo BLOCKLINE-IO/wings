@@ -284,7 +284,7 @@ func (e *Environment) SendCommand(c string) error {
 		e.SetState(environment.ProcessStoppingState)
 	}
 
-	_, err := e.stream.Conn.Write([]byte(c + "\n"))
+	_, err := e.stream.Conn.Write([]byte(c + "\r"))
 
 	return errors.Wrap(err, "environment/docker: could not write to container stream")
 }

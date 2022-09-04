@@ -14,6 +14,7 @@ import (
 
 var (
 	cr  = []byte(" \r")
+	lf  = []byte(" \n")
 	crr = []byte("\r\n")
 )
 
@@ -70,7 +71,9 @@ func ScanReader(r io.Reader, callback func(line []byte)) error {
 			// in line with that it thinks is the terminal size. Those returns break a lot of output handling,
 			// so we'll just replace them with proper new-lines and then split it later and send each line as
 			// its own event in the response.
-			line = bytes.Replace(line, cr, crr, -1)
+
+			line = bytes.Replace(line, cr, lf, -1)
+			line = bytes.Replace(line, lf, crr, -1)
 			ns := buf.Len() + len(line)
 
 			// If the length of the line value and the current value in the buffer will
